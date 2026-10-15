@@ -1,0 +1,812 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Luckiest+Guy&display=swap');
+
+/* =====================================================
+   LOONEY STYLE  -  mismas clases, cero cambios en tu HTML
+   ===================================================== */
+
+:root {
+    --rojo: #d7263d;
+    --naranja: #f46036;
+    --amarillo: #ffd93d;
+    --crema: #fff3cd;
+    --tinta: #1f1a14;
+    --madera: #c98a4b;
+    /* estrella de 10 puntas para los "POW!" */
+    --estrella: polygon(100% 50%, 82.3% 60.5%, 90.5% 79.4%, 70% 77.5%, 65.5% 97.6%, 50% 84%, 34.5% 97.6%, 30% 77.5%, 9.5% 79.4%, 17.7% 60.5%, 0% 50%, 17.7% 39.5%, 9.5% 20.6%, 30% 22.5%, 34.5% 2.4%, 50% 16%, 65.5% 2.4%, 70% 22.5%, 90.5% 20.6%, 82.3% 39.5%);
+    --zigzag: polygon(0 0, 100% 0, 100% 70%, 97% 100%, 94% 70%, 91% 100%, 88% 70%, 85% 100%, 82% 70%, 79% 100%, 76% 70%, 73% 100%, 70% 70%, 67% 100%, 64% 70%, 61% 100%, 58% 70%, 55% 100%, 52% 70%, 49% 100%, 46% 70%, 43% 100%, 40% 70%, 37% 100%, 34% 70%, 31% 100%, 28% 70%, 25% 100%, 22% 70%, 19% 100%, 16% 70%, 13% 100%, 10% 70%, 7% 100%, 4% 70%, 1% 100%, 0 70%);
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+html {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='34'><text y='28' font-size='28'>🥕</text></svg>") 4 4, auto;
+}
+
+a, button, .boton, .tarjeta, select, label {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='34'><text y='28' font-size='28'>🔨</text></svg>") 4 4, pointer;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--tinta);
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #fff3cd 0%, #ffe0b2 50%, #ffd6a5 100%);
+    background-size: 400% 400%;
+    animation: fondoMovimiento 12s ease infinite;
+}
+
+/* ===== BARRA DE PROGRESO TIPO ZANAHORIA (solo navegadores modernos) ===== */
+html::before {
+    content: "";
+    display: none;
+}
+@supports (animation-timeline: scroll()) {
+    html::before {
+        display: block;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 10px;
+        z-index: 200;
+        background: repeating-linear-gradient(45deg, var(--naranja) 0 12px, var(--amarillo) 12px 24px);
+        border-bottom: 3px solid var(--tinta);
+        transform-origin: left;
+        transform: scaleX(0);
+        animation: progresoScroll linear both;
+        animation-timeline: scroll(root);
+    }
+}
+@keyframes progresoScroll { to { transform: scaleX(1); } }
+
+/* ===== ENTRADA: IRIS-IN (el círculo del cierre de dibujos animados) ===== */
+@property --iris {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 150vmax;
+}
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, transparent var(--iris), var(--tinta) calc(var(--iris) + 2px));
+    animation: irisAbrir 1.3s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes irisAbrir {
+    from { --iris: 0px; }
+    to   { --iris: 150vmax; }
+}
+
+/* ===== FONDO: TUNEL DE ANILLOS + TRAMA DE PUNTOS + FORMAS ===== */
+.fondo-decorado {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.fondo-decorado::before {
+    content: "";
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 220vmax; height: 220vmax;
+    margin: -110vmax 0 0 -110vmax;
+    background: repeating-radial-gradient(circle at center,
+        #d7263d 0 5vmax, #f46036 5vmax 10vmax, #ffd93d 10vmax 15vmax, #fff3cd 15vmax 20vmax);
+    opacity: 0.22;
+    animation: tunel 14s linear infinite;
+}
+
+.fondo-decorado::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(215,38,61,0.35) 22%, transparent 24%);
+    background-size: 14px 14px;
+    opacity: 0.35;
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 55%, #000 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 55%, #000 100%);
+}
+
+@keyframes tunel {
+    from { transform: rotate(0deg) scale(1); }
+    50%  { transform: rotate(180deg) scale(1.25); }
+    to   { transform: rotate(360deg) scale(1); }
+}
+
+.forma {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.55;
+    border: 4px solid var(--tinta);
+    box-shadow: 5px 5px 0 rgba(31,26,20,0.6), inset -8px -8px 0 rgba(0,0,0,0.12);
+}
+
+.forma1 { width: 120px; height: 120px; background: #f46036; top: 10%; left: 5%;  animation: flotar1 9s ease-in-out infinite; }
+.forma2 { width: 80px;  height: 80px;  background: #ffd93d; top: 65%; left: 12%; animation: flotar2 7s ease-in-out infinite; }
+.forma3 { width: 150px; height: 150px; background: #d7263d; top: 25%; left: 85%; animation: flotar3 10s ease-in-out infinite; }
+.forma4 { width: 90px;  height: 90px;  background: #ffd93d; top: 75%; left: 80%; animation: flotar1 8s ease-in-out infinite; }
+.forma5 { width: 60px;  height: 60px;  background: #f46036; top: 45%; left: 48%; animation: flotar2 6s ease-in-out infinite; }
+.forma6 { width: 100px; height: 100px; background: #d7263d; top: 5%;  left: 45%; animation: flotar3 11s ease-in-out infinite; }
+
+/* Todo el contenido real va encima del fondo */
+.cabecera, nav, .contenedor {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== CABECERA: LA INTRO DE "LOONEY TUNES" ===== */
+.cabecera {
+    background: repeating-conic-gradient(from 0deg at 50% 120%, #d7263d 0 10deg, #f46036 10deg 20deg);
+    padding: 26px 25px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+    border-bottom: 8px solid var(--tinta);
+    box-shadow: 0 8px 0 var(--amarillo), 0 14px 18px rgba(0,0,0,0.35);
+    overflow: hidden;
+    animation: deslizarAbajo 0.7s cubic-bezier(.3,1.6,.5,1);
+}
+
+/* anillos concéntricos giratorios detrás del título */
+.cabecera::before {
+    content: "";
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 700px; height: 700px;
+    margin: -350px 0 0 -350px;
+    background: repeating-radial-gradient(circle, rgba(255,217,61,0.0) 0 30px, rgba(255,217,61,0.35) 30px 60px);
+    border-radius: 50%;
+    z-index: -1;
+    animation: tunel 10s linear infinite;
+}
+
+/* borde inferior en zigzag tipo "recorte" de cómic */
+.cabecera::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 14px;
+    background: repeating-linear-gradient(135deg, var(--tinta) 0 8px, transparent 8px 16px);
+    opacity: 0.8;
+}
+
+.espacio-logo {
+    width: 95px;
+    height: 95px;
+    background: radial-gradient(circle, var(--crema) 0 35%, var(--amarillo) 36% 60%, var(--naranja) 61%);
+    border: 5px solid var(--tinta);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    text-align: center;
+    color: var(--tinta);
+    font-weight: bold;
+    flex-shrink: 0;
+    box-shadow: 6px 6px 0 var(--tinta);
+    animation: girar 6s linear infinite, pulso 2.5s ease-in-out infinite;
+    margin: 0 auto;
+}
+
+.espacio-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.nombre-empresa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nombre-empresa h1 {
+    margin: 0;
+    font-family: 'Bangers', 'Luckiest Guy', cursive;
+    font-size: 68px;
+    letter-spacing: 4px;
+    line-height: 1;
+    color: var(--amarillo);
+    -webkit-text-stroke: 3px var(--tinta);
+    paint-order: stroke fill;
+    text-shadow:
+        3px 3px 0 var(--tinta),
+        6px 6px 0 var(--rojo),
+        9px 9px 0 var(--tinta),
+        12px 12px 0 rgba(0,0,0,0.25);
+    transform: skew(-6deg);
+    animation: tambalear 3s ease-in-out infinite;
+}
+
+.nombre-empresa p {
+    margin: 12px 0 0 0;
+    padding: 4px 16px;
+    background: var(--crema);
+    color: var(--tinta);
+    border: 3px solid var(--tinta);
+    border-radius: 30px;
+    box-shadow: 4px 4px 0 var(--tinta);
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    transform: rotate(-2deg);
+}
+
+/* ===== MENU: TIRA DE PELICULA ===== */
+nav {
+    background-color: var(--tinta);
+    padding: 14px 12px;
+    text-align: center;
+    border-top: 6px dashed var(--crema);
+    border-bottom: 6px dashed var(--crema);
+}
+
+nav a {
+    color: var(--amarillo);
+    text-decoration: none;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1.5px;
+    margin: 4px 8px;
+    font-size: 20px;
+    padding: 7px 20px;
+    border: 3px solid transparent;
+    border-radius: 25px;
+    display: inline-block;
+    transition: background-color .15s, color .15s, border-color .15s;
+}
+
+nav a:hover {
+    background-color: var(--amarillo);
+    color: var(--tinta);
+    border-color: var(--crema);
+    box-shadow: 4px 4px 0 var(--rojo);
+    animation: boing 0.6s ease;
+}
+
+/* ===== CONTENEDOR ===== */
+.contenedor {
+    background-color: #fffaf0;
+    background-image: radial-gradient(rgba(244,96,54,0.12) 20%, transparent 22%);
+    background-size: 12px 12px;
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 30px;
+    border: 6px solid var(--tinta);
+    border-radius: 24px;
+    box-shadow: 12px 12px 0 var(--rojo), 12px 12px 0 3px var(--tinta);
+    animation: aparecer 0.5s ease 0.6s both;
+}
+
+/* telón final: "That's all folks" */
+.contenedor::after {
+    content: "¡Eso es todo, amigos!";
+    display: block;
+    margin: 45px auto 5px;
+    width: fit-content;
+    padding: 12px 32px;
+    font-family: 'Bangers', cursive;
+    font-size: 34px;
+    letter-spacing: 3px;
+    color: var(--crema);
+    background: repeating-radial-gradient(circle at center, var(--rojo) 0 14px, var(--naranja) 14px 28px);
+    border: 5px solid var(--tinta);
+    border-radius: 60px;
+    text-shadow: 3px 3px 0 var(--tinta);
+    box-shadow: 6px 6px 0 var(--tinta);
+    transform: rotate(-2deg);
+    animation: tambalear 4s ease-in-out infinite;
+}
+
+h2 {
+    color: var(--rojo);
+    font-family: 'Bangers', cursive;
+    font-weight: normal;
+    font-size: 38px;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 0 var(--amarillo), 4px 4px 0 var(--tinta);
+    border-bottom: 6px double var(--naranja);
+    padding-bottom: 8px;
+}
+
+/* ===== TARJETAS DE ESTADISTICAS: CAJAS ACME ===== */
+.tarjetas-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-bottom: 30px;
+}
+
+.stat {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+    background:
+        linear-gradient(135deg, transparent 47%, rgba(80,40,10,0.35) 47% 53%, transparent 53%),
+        repeating-linear-gradient(90deg, #d9a05b 0 38px, #c98a4b 38px 40px, #d9a05b 40px 78px, #b87a3f 78px 80px);
+    border: 5px solid #5a3412;
+    border-radius: 8px;
+    padding: 28px 18px 18px;
+    text-align: center;
+    box-shadow: 7px 7px 0 var(--tinta);
+    transition: transform .2s ease;
+    animation: rebotar 0.7s ease both;
+}
+
+.stat:nth-child(odd)  { transform: rotate(-1.5deg); }
+.stat:nth-child(even) { transform: rotate(1.5deg); }
+.stat:nth-child(2) { animation-delay: .1s; }
+.stat:nth-child(3) { animation-delay: .2s; }
+.stat:nth-child(4) { animation-delay: .3s; }
+
+/* sello ACME */
+.stat::before {
+    content: "ACME";
+    position: absolute;
+    top: -16px; left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    background: var(--rojo);
+    color: var(--crema);
+    font-family: 'Bangers', cursive;
+    font-size: 16px;
+    letter-spacing: 3px;
+    padding: 2px 14px;
+    border: 3px solid var(--tinta);
+    border-radius: 6px;
+}
+
+.stat:hover {
+    transform: translateY(-8px) rotate(0deg) scale(1.06);
+    animation: sacudir .35s ease;
+}
+
+.stat .numero {
+    display: inline-block;
+    font-family: 'Bangers', cursive;
+    font-size: 54px;
+    line-height: 1.1;
+    color: var(--crema);
+    -webkit-text-stroke: 2px var(--tinta);
+    paint-order: stroke fill;
+    text-shadow: 4px 4px 0 var(--tinta);
+    animation: pulso 2s ease-in-out infinite;
+}
+
+.stat .etiqueta {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 10px;
+    background: var(--crema);
+    border: 2px solid var(--tinta);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--tinta);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* ===== TARJETAS DE ACCESOS: CON EXPLOSION "POW" ===== */
+.tarjetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    justify-content: center;
+}
+
+.tarjeta {
+    position: relative;
+    background-color: #ffffff;
+    background-image: radial-gradient(rgba(215,38,61,0.15) 25%, transparent 27%);
+    background-size: 10px 10px;
+    border: 5px solid var(--tinta);
+    border-radius: 22px 22px 22px 4px;
+    width: 210px;
+    padding: 22px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--tinta);
+    box-shadow: 7px 7px 0 var(--rojo);
+    transition: background-color .2s, box-shadow .2s;
+    animation: rebotar 0.7s ease both;
+}
+
+.tarjeta:nth-child(odd)  { transform: rotate(-1deg); }
+.tarjeta:nth-child(even) { transform: rotate(1deg); }
+
+.tarjeta:hover {
+    background-color: var(--crema);
+    box-shadow: 10px 12px 0 var(--rojo);
+    animation: boingTarjeta .6s ease forwards;
+    z-index: 3;
+}
+
+.tarjeta:hover::after {
+    content: "¡POW!";
+    position: absolute;
+    top: -34px; right: -38px;
+    width: 92px; height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--amarillo);
+    color: var(--rojo);
+    font-family: 'Bangers', cursive;
+    font-size: 24px;
+    text-shadow: 2px 2px 0 var(--tinta);
+    clip-path: var(--estrella);
+    filter: drop-shadow(3px 3px 0 var(--tinta));
+    transform: rotate(14deg);
+    animation: explotar .35s cubic-bezier(.2,1.8,.4,1) both;
+}
+
+.tarjeta .titulo-tarjeta {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1.5px;
+    color: var(--rojo);
+    font-size: 26px;
+    margin-bottom: 6px;
+    text-shadow: 2px 2px 0 var(--amarillo);
+}
+
+.tarjeta .descripcion-tarjeta {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a3b22;
+}
+
+/* ===== TABLAS: CLAQUETA DE CINE ===== */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    background-color: #ffffff;
+    border: 5px solid var(--tinta);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 7px 7px 0 var(--tinta);
+    animation: aparecer 0.5s ease;
+}
+
+th, td {
+    border-bottom: 2px solid var(--tinta);
+    border-right: 2px dashed rgba(31,26,20,0.35);
+    padding: 11px;
+    text-align: center;
+    font-size: 14px;
+}
+
+th:last-child, td:last-child { border-right: none; }
+
+th {
+    background: repeating-linear-gradient(135deg, var(--rojo) 0 14px, #b81d31 14px 28px);
+    color: var(--amarillo);
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 0 var(--tinta);
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+tr { transition: background-color 0.15s ease, transform 0.15s ease; }
+
+tr:nth-child(even) { background-color: var(--crema); }
+
+tr:hover {
+    background-color: #ffe29a !important;
+    transform: scale(1.012);
+}
+
+tr.stock-bajo td {
+    background-color: #ffcdd2;
+    font-weight: bold;
+    color: #b71c1c;
+    animation: parpadear 1.2s ease-in-out infinite;
+}
+
+/* dinamita en filas de stock bajo */
+tr.stock-bajo td:first-child::before {
+    content: "🧨 ";
+    display: inline-block;
+    animation: sacudir .5s ease-in-out infinite;
+}
+
+/* ===== FORMULARIOS: GLOBO DE DIALOGO ===== */
+form {
+    position: relative;
+    margin-top: 14px;
+    margin-bottom: 36px;
+    background-color: #ffffff;
+    border: 5px solid var(--tinta);
+    border-radius: 30px;
+    padding: 24px;
+    box-shadow: 7px 7px 0 var(--amarillo), 7px 7px 0 2px var(--tinta);
+    animation: aparecer 0.5s ease;
+}
+
+/* colita del globo */
+form::after {
+    content: "";
+    position: absolute;
+    bottom: -32px; left: 50px;
+    width: 34px; height: 34px;
+    background: #ffffff;
+    border-right: 5px solid var(--tinta);
+    border-bottom: 5px solid var(--tinta);
+    transform: skewX(35deg) rotate(45deg) scale(.8);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1px;
+    font-weight: normal;
+    font-size: 18px;
+    color: var(--rojo);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 4px;
+    border: 3px solid var(--tinta);
+    border-radius: 14px;
+    background-color: #fffaf0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--rojo);
+    background-color: #fffde7;
+    box-shadow: 5px 5px 0 var(--amarillo), 5px 5px 0 2px var(--tinta);
+    transform: translate(-2px, -2px) rotate(-.4deg);
+}
+
+button, .boton {
+    margin-top: 18px;
+    padding: 12px 26px;
+    background: linear-gradient(180deg, #ffe66d 0%, var(--amarillo) 100%);
+    color: var(--tinta);
+    border: 4px solid var(--tinta);
+    border-radius: 40px;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1.5px;
+    font-size: 20px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 6px 6px 0 var(--rojo), 6px 6px 0 2px var(--tinta);
+    transition: all 0.1s ease;
+}
+
+button:hover, .boton:hover {
+    background: var(--rojo);
+    color: var(--crema);
+    text-shadow: 2px 2px 0 var(--tinta);
+    transform: translate(3px, 3px) rotate(-2deg);
+    box-shadow: 3px 3px 0 var(--tinta);
+    animation: boing .5s ease;
+}
+
+button:active, .boton:active {
+    transform: translate(6px, 6px) scale(.97);
+    box-shadow: 0 0 0 var(--tinta);
+}
+
+.acciones a {
+    margin: 0 4px;
+    color: var(--rojo);
+    font-weight: 900;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+    display: inline-block;
+}
+
+.acciones a:hover {
+    transform: scale(1.3) rotate(-6deg);
+    text-shadow: 2px 2px 0 var(--amarillo);
+}
+
+/* ===== MENSAJES: CARTEL DE NOTICIA ===== */
+.mensaje {
+    position: relative;
+    background: repeating-linear-gradient(45deg, var(--amarillo) 0 18px, #ffe66d 18px 36px);
+    border: 4px solid var(--tinta);
+    border-radius: 16px;
+    padding: 14px 14px 14px 52px;
+    margin-bottom: 18px;
+    font-weight: 900;
+    text-align: center;
+    box-shadow: 5px 5px 0 var(--tinta);
+    animation: rebotar 0.6s ease;
+}
+
+.mensaje::before {
+    content: "💬";
+    position: absolute;
+    left: 14px; top: 50%;
+    font-size: 26px;
+    transform: translateY(-50%);
+    animation: pulso 1.5s ease-in-out infinite;
+}
+
+.buscador { margin-bottom: 18px; }
+
+.buscador input {
+    width: 100%;
+    padding: 13px 20px;
+    border: 4px solid var(--tinta);
+    border-radius: 40px;
+    font-size: 15px;
+    background: #fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><text y='22' font-size='20'>🔍</text></svg>") no-repeat right 16px center;
+    box-shadow: 5px 5px 0 var(--tinta);
+}
+
+.seccion-tabla { margin-top: 36px; }
+
+.subtitulo {
+    text-align: center;
+    margin-bottom: 28px;
+    color: #5a4a35;
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* ===== LLUVIA DE ESTRELLAS ===== */
+.lluvia-estrellas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.estrella {
+    position: absolute;
+    top: -5%;
+    font-size: 40px;
+    color: var(--amarillo);
+    -webkit-text-stroke: 1.5px var(--tinta);
+    text-shadow: 0 0 12px var(--naranja), 3px 3px 0 rgba(31,26,20,.5);
+    animation-name: caerEstrella;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes rebotar {
+    0%   { transform: translateY(-60px) scale(0.6, 1.3); opacity: 0; }
+    50%  { transform: translateY(8px) scale(1.15, 0.8); opacity: 1; }
+    75%  { transform: translateY(-6px) scale(0.95, 1.05); }
+    100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(20px) scale(.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes deslizarAbajo {
+    0%   { transform: translateY(-100%); }
+    60%  { transform: translateY(6%); }
+    80%  { transform: translateY(-2%); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes pulso {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+}
+
+@keyframes parpadear {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.6; }
+}
+
+@keyframes girar {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+@keyframes tambalear {
+    0%, 100% { transform: skew(-6deg) rotate(0deg); }
+    25%      { transform: skew(-6deg) rotate(-2deg); }
+    75%      { transform: skew(-6deg) rotate(2deg); }
+}
+
+/* "squash & stretch": el principio clásico de la animación */
+@keyframes boing {
+    0%   { transform: scale(1, 1); }
+    25%  { transform: scale(1.25, 0.75); }
+    50%  { transform: scale(0.85, 1.2) translateY(-8px); }
+    75%  { transform: scale(1.08, 0.94); }
+    100% { transform: scale(1, 1); }
+}
+
+@keyframes boingTarjeta {
+    0%   { transform: translateY(0) scale(1, 1) rotate(0); }
+    30%  { transform: translateY(2px) scale(1.1, 0.88) rotate(-2deg); }
+    60%  { transform: translateY(-14px) scale(0.95, 1.1) rotate(2deg); }
+    100% { transform: translateY(-8px) scale(1.05) rotate(-2deg); }
+}
+
+@keyframes sacudir {
+    0%, 100% { transform: translate(0, 0) rotate(0); }
+    20% { transform: translate(-3px, 1px) rotate(-3deg); }
+    40% { transform: translate(3px, -2px) rotate(3deg); }
+    60% { transform: translate(-2px, 2px) rotate(-2deg); }
+    80% { transform: translate(2px, -1px) rotate(2deg); }
+}
+
+@keyframes explotar {
+    from { transform: scale(0) rotate(-40deg); }
+    to   { transform: scale(1) rotate(14deg); }
+}
+
+@keyframes fondoMovimiento {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes flotar1 {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(30px, -40px); }
+}
+
+@keyframes flotar2 {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(-25px, 35px); }
+}
+
+@keyframes flotar3 {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(20px, 25px); }
+}
+
+@keyframes caerEstrella {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+    .nombre-empresa h1 { font-size: 40px; }
+    .contenedor { margin: 18px 12px; padding: 18px; }
+    .tarjeta { width: 100%; }
+    nav a { font-size: 17px; padding: 6px 14px; }
+    table { display: block; overflow-x: auto; }
+}
+
+/* ===== ACCESIBILIDAD: menos movimiento ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

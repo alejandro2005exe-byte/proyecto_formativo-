@@ -1,0 +1,7 @@
+# Tipo correcto para el manifiesto de la app instalable (PWA)
+AddType application/manifest+json .webmanifest
+
+# Que nadie pueda descargar el script de la base de datos ni los instructivos desde el navegador
+<FilesMatch "\.(sql|md)$">
+    Require all denied
+</FilesMatch>

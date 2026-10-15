@@ -1,0 +1,83 @@
+/* ===== Ventana "Añadir / Editar", barra superior y menu activo ===== */
+.barra-superior { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 6px; }
+.barra-superior h2 { margin: 0; flex: 1; min-width: 200px; }
+.boton-anadir { margin-top: 0; }
+
+dialog.modal {
+    border: 6px solid var(--tinta);
+    border-radius: 28px;
+    padding: 0;
+    width: 92%;
+    max-width: 560px;
+    background: #fffaf0;
+    box-shadow: 12px 12px 0 var(--rojo);
+    color: var(--tinta);
+}
+dialog.modal::backdrop { background: rgba(31, 26, 20, 0.65); }
+dialog.modal[open] { animation: rebotar 0.5s ease; }
+.modal-contenido { padding: 10px 26px 26px; max-height: 88vh; overflow-y: auto; }
+.modal-contenido h2 { font-size: 30px; }
+.modal form { margin: 0; padding: 0; border: none; box-shadow: none; background: transparent; animation: none; }
+.modal form::after { display: none; }
+.botones-modal { display: flex; gap: 12px; flex-wrap: wrap; }
+.boton-cancelar { background: #ffffff; }
+
+.linea-producto { display: flex; gap: 8px; align-items: flex-end; }
+.linea-producto > div:first-child { flex: 3; }
+.linea-producto > div:nth-child(2) { flex: 1; }
+.quitar-linea { margin-top: 0; padding: 8px 14px; font-size: 16px; box-shadow: 3px 3px 0 var(--tinta); }
+.boton-secundario { margin-top: 12px; font-size: 16px; padding: 8px 18px; }
+.pista { font-size: 12px; font-weight: 700; color: #5a4a35; margin-top: 4px; }
+.detalle-pedido { font-size: 12px; text-align: left; }
+
+nav a.activo { background-color: var(--amarillo); color: var(--tinta); border-color: var(--crema); }
+nav a.salir { background-color: var(--rojo); color: var(--crema); border-color: var(--crema); }
+nav a.salir:hover { background-color: var(--crema); color: var(--rojo); }
+
+tfoot td { background: var(--amarillo); font-weight: 900; }
+.formula { background: var(--crema); border: 3px dashed var(--tinta); border-radius: 14px; padding: 10px 16px; margin: 10px 0 18px; font-weight: 700; }
+.bloque-fin h2 { margin-top: 34px; }
+.estado-ok { color: #1b7a2e; font-weight: 900; }
+.estado-mal { color: var(--rojo); font-weight: 900; }
+
+/* ===== Cartel "¡Eso es todo, amigos!": ya NO esta fijo en cada pagina ===== */
+.contenedor::after { content: none !important; display: none !important; }
+.telon-final { position: fixed; left: 0; right: 0; bottom: 28px; display: flex; justify-content: center; z-index: 600; pointer-events: none; }
+.telon-pill {
+    padding: 12px 32px;
+    font-family: 'Bangers', cursive;
+    font-size: 34px;
+    letter-spacing: 3px;
+    color: var(--crema);
+    background: repeating-radial-gradient(circle at center, var(--rojo) 0 14px, var(--naranja) 14px 28px);
+    border: 5px solid var(--tinta);
+    border-radius: 60px;
+    text-shadow: 3px 3px 0 var(--tinta);
+    box-shadow: 6px 6px 0 var(--tinta);
+    transform: rotate(-2deg);
+    animation: rebotar 0.7s ease;
+}
+@media (max-width: 700px) { .telon-pill { font-size: 22px; padding: 8px 20px; } }
+
+/* ===== Reportes ===== */
+form.filtros { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; padding: 16px 20px; margin: 16px 0 8px; border-radius: 20px; }
+form.filtros::after { display: none; }
+.filtros > div { flex: 1; min-width: 160px; }
+.filtros button, .filtros .boton { margin-top: 0; font-size: 16px; padding: 9px 18px; }
+.encabezado-reporte { margin-top: 18px; }
+.encabezado-reporte h2 { margin-bottom: 4px; }
+.encabezado-reporte p { margin: 4px 0 0; font-weight: 700; color: #5a4a35; }
+.solo-impresion { display: none; }
+
+@media print {
+    body { background: #ffffff !important; animation: none !important; }
+    body::after, html::before { display: none !important; }
+    nav, .cabecera, .filtros, .barra-superior, .pista, .lluvia-estrellas, .telon-final, .acciones, dialog { display: none !important; }
+    .solo-impresion { display: block; text-align: center; }
+    .contenedor { border: none; box-shadow: none; margin: 0; padding: 0; background: #ffffff; max-width: none; animation: none; }
+    table { box-shadow: none; border: 2px solid #000; animation: none; }
+    th { background: #dddddd !important; color: #000000 !important; text-shadow: none; }
+    tr { transform: none !important; }
+    tr:hover { background: transparent !important; }
+    tfoot td { background: #eeeeee; }
+}
